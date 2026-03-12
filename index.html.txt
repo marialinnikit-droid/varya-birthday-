@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Варе годик!</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+Scribble&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#F8F3EA;
+      --red:#C92B3F;
+      --coral:#F28C7B;
+      --blue:#2F67C8;
+      --sky:#A9DCED;
+      --green:#1F8A63;
+      --gold:#D6B25F;
+      --text:#2B2B2B;
+      --lilac:#D9C4F2;
+      --pink:#F3A2CB;
+      --orange:#F4B05A;
+      --yellow:#F2D94E;
+      --paper:#FFFDF8;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html, body{
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:"Manrope", system-ui, sans-serif;
+      overflow-x:hidden;
+    }
+
+    .page{
+      position:relative;
+      max-width:760px;
+      margin:0 auto;
+      padding:20px 16px 56px;
+      min-height:100vh;
+    }
+
+    .decor{
+      position:absolute;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .hanger{
+      position:absolute;
+      top:0;
+      left:50%;
+      width:2px;
+      height:25px;
+      background:rgba(120,120,130,.75);
+      transform:translateX(-50%);
+      z-index:0;
+    }
+
+    .discoball{
+      width:140px;
+      height:140px;
+      left:50%;
+      top:20px;
+      transform:translateX(-50%);
+      animation:floatBall 4s ease-in-out infinite;
+      z-index:1;
+    }
+
+    .discoball img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+    }
+
+    .starburst{
+      width:88px;
+      height:88px;
+      background:var(--yellow);
+      clip-path:polygon(50% 0%, 61% 27%, 85% 6%, 73% 34%, 100% 50%, 73% 66%, 85% 94%, 61% 73%, 50% 100%, 39% 73%, 15% 94%, 27% 66%, 0% 50%, 27% 34%, 15% 6%, 39% 27%);
+    }
+
+    .star-left{
+      top:118px;
+      left:34px;
+    }
+
+    .star-right{
+      top:252px;
+      right:28px;
+      background:var(--gold);
+    }
+
+    .squiggle{
+      font-family:"Rubik Scribble", cursive;
+      font-size:92px;
+      line-height:1;
+      color:var(--lilac);
+      top:190px;
+      left:6px;
+      transform:rotate(10deg);
+      opacity:.92;
+    }
+
+    .note{
+      font-family:"Rubik Scribble", cursive;
+      font-size:58px;
+      color:var(--orange);
+      top:88px;
+      right:58px;
+      transform:rotate(-12deg);
+      opacity:.95;
+    }
+
+    .title{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      font-family:"Rubik Scribble", cursive;
+      font-size:clamp(58px, 11vw, 108px);
+      line-height:.92;
+      margin:140px 0 26px;
+      letter-spacing:1px;
+      color:transparent;
+      background:
+        repeating-linear-gradient(
+          -18deg,
+          #1f56bb 0px,
+          #1f56bb 2px,
+          #2F67C8 2px,
+          #2F67C8 6px,
+          #3a73d0 6px,
+          #3a73d0 8px
+        );
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-stroke:1.2px #19489a;
+      filter:drop-shadow(0 1px 0 rgba(255,255,255,.55));
+      transform:rotate(-1.2deg);
+      text-wrap:balance;
+    }
+
+    .hero{
+      position:relative;
+      z-index:2;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:360px;
+      margin:0 0 26px;
+    }
+
+    .blob{
+      position:absolute;
+      width:min(340px, 76vw);
+      height:min(250px, 56vw);
+      background:#F6B700;
+      border-radius:46% 54% 58% 42% / 48% 43% 57% 52%;
+      z-index:0;
+    }
+
+    .blob::before,
+    .blob::after{
+      content:"";
+      position:absolute;
+      border:2px solid rgba(248,243,234,.56);
+      border-radius:50%;
+    }
+
+    .blob::before{
+      inset:18px;
+    }
+
+    .blob::after{
+      inset:40px 6px 10px 22px;
+    }
+
+    .photo-wrap{
+      position:relative;
+      z-index:2;
+      width:min(308px, 68vw);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+.photo-wrap img{
+  width:100%;
+  display:block;
+  filter:drop-shadow(0 10px 18px rgba(0,0,0,.10));
+  animation:varyaBeat 0.8s ease-in-out infinite;
+}
+
+@keyframes varyaBeat{
+  0%{
+    transform:scale(1);
+  }
+
+  50%{
+    transform:scale(1.04);
+  }
+
+  100%{
+    transform:scale(1);
+  }
+}
+
+    .firework{
+      position:absolute;
+      z-index:1;
+      width:94px;
+      height:94px;
+      color:var(--pink);
+      animation:fireworkPulse 2.2s ease-in-out infinite;
+    }
+
+    .firework::before,
+    .firework::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:50%;
+    }
+
+    .firework::before{
+      background:
+        radial-gradient(circle, currentColor 0 7px, transparent 8px),
+        radial-gradient(circle, currentColor 0 5px, transparent 6px),
+        radial-gradient(circle, currentColor 0 6px, transparent 7px),
+        radial-gradient(circle, currentColor 0 5px, transparent 6px),
+        radial-gradient(circle, currentColor 0 6px, transparent 7px),
+        radial-gradient(circle, currentColor 0 5px, transparent 6px),
+        radial-gradient(circle, currentColor 0 6px, transparent 7px),
+        radial-gradient(circle, currentColor 0 5px, transparent 6px);
+      background-repeat:no-repeat;
+      background-position:
+        50% 0%, 84% 16%, 100% 50%, 84% 84%,
+        50% 100%, 16% 84%, 0% 50%, 16% 16%;
+    }
+
+    .firework::after{
+      inset:18px;
+      border:3px dashed currentColor;
+      opacity:.38;
+      animation:spin 7s linear infinite;
+    }
+
+    .fw-left{
+      left:calc(50% - 225px);
+      top:162px;
+      color:var(--pink);
+      animation-delay:0s;
+    }
+
+    .fw-right{
+      right:calc(50% - 220px);
+      top:112px;
+      color:var(--red);
+      animation-delay:.5s;
+    }
+
+    .fw-bottom{
+      right:calc(50% - 248px);
+      top:292px;
+      width:78px;
+      height:78px;
+      color:var(--yellow);
+      animation-delay:1s;
+    }
+
+    .intro{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      max-width:640px;
+      margin:0 auto 28px;
+      font-size:18px;
+      line-height:1.65;
+    }
+
+    .intro .accent-word{
+      color:var(--red);
+      font-weight:800;
+    }
+
+    .date{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      font-family:"Rubik Scribble", cursive;
+      font-size:clamp(40px, 8vw, 76px);
+      line-height:1;
+      margin:24px 0 10px;
+      letter-spacing:1px;
+      color:transparent;
+      background:
+        repeating-linear-gradient(
+          -18deg,
+          #1f56bb 0px,
+          #1f56bb 2px,
+          #2F67C8 2px,
+          #2F67C8 6px,
+          #3a73d0 6px,
+          #3a73d0 8px
+        );
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-stroke:1px #19489a;
+    }
+
+    .subdate{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      font-size:17px;
+      margin-bottom:18px;
+    }
+
+    .place{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      font-size:21px;
+      margin-bottom:24px;
+    }
+
+    .dress{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      max-width:660px;
+      margin:0 auto 16px;
+    }
+
+    .dress-title{
+      font-weight:800;
+      font-size:20px;
+      margin-bottom:10px;
+    }
+
+    .dress-text{
+      margin:0;
+      font-size:17px;
+      line-height:1.6;
+    }
+
+    .color-dots{
+      position:relative;
+      z-index:2;
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin:16px 0 28px;
+    }
+
+    .dot{
+      width:22px;
+      height:22px;
+      border-radius:50%;
+      border:2px solid rgba(255,255,255,.72);
+      box-shadow:0 3px 8px rgba(0,0,0,.10);
+    }
+
+    .wishlist{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      font-size:18px;
+      line-height:1.65;
+      margin-bottom:18px;
+    }
+
+    .wishlist a{
+      color:var(--red);
+      font-weight:800;
+      text-decoration:none;
+    }
+
+    .rsvp{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      margin:16px 0 32px;
+    }
+
+    .rsvp-btn{
+      display:inline-block;
+      padding:14px 22px;
+      border-radius:999px;
+      background:var(--red);
+      color:#fff;
+      text-decoration:none;
+      font-weight:800;
+      box-shadow:0 8px 18px rgba(201,43,63,.22);
+      cursor:pointer;
+      border:none;
+      font-size:16px;
+      font-family:inherit;
+    }
+
+    .footer{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      font-size:18px;
+      line-height:1.7;
+    }
+
+    .sunburst-word{
+      position:relative;
+      display:inline-block;
+      color:var(--yellow);
+      text-shadow:
+        0 0 10px var(--yellow),
+        0 0 20px var(--orange),
+        0 0 30px var(--gold);
+      animation:sunburstPulse 2s ease-in-out infinite;
+    }
+
+    .sunburst-word::before{
+      content:'';
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%, -50%);
+      width:60px;
+      height:60px;
+      background:
+        conic-gradient(
+          from 0deg,
+          transparent 0deg,
+          var(--yellow) 5deg,
+          transparent 10deg,
+          transparent 35deg,
+          var(--gold) 40deg,
+          transparent 45deg,
+          transparent 80deg,
+          var(--orange) 85deg,
+          transparent 90deg,
+          transparent 125deg,
+          var(--yellow) 130deg,
+          transparent 135deg,
+          transparent 170deg,
+          var(--gold) 175deg,
+          transparent 180deg,
+          transparent 215deg,
+          var(--orange) 220deg,
+          transparent 225deg,
+          transparent 260deg,
+          var(--yellow) 265deg,
+          transparent 270deg,
+          transparent 305deg,
+          var(--gold) 310deg,
+          transparent 315deg,
+          transparent 350deg,
+          var(--orange) 355deg,
+          transparent 360deg
+        );
+      opacity:.6;
+      animation:sunburstRotate 4s linear infinite;
+      z-index:-1;
+      pointer-events:none;
+    }
+
+    .sunburst-word::after{
+      content:'';
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%, -50%);
+      width:80px;
+      height:80px;
+      background:radial-gradient(circle, rgba(242, 217, 78, 0.4) 0%, transparent 70%);
+      animation:sunburstGlow 2s ease-in-out infinite;
+      z-index:-2;
+      pointer-events:none;
+    }
+
+    .modal-overlay{
+      display:none;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0, 0, 0, 0.5);
+      z-index:1000;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+    }
+
+    .modal-overlay.active{
+      display:flex;
+    }
+
+    .modal{
+      background:var(--paper);
+      border-radius:24px;
+      padding:32px;
+      max-width:400px;
+      width:100%;
+      position:relative;
+      animation:modalAppear 0.3s ease-out;
+    }
+
+    .modal-close{
+      position:absolute;
+      top:16px;
+      right:16px;
+      width:32px;
+      height:32px;
+      border:none;
+      background:none;
+      cursor:pointer;
+      font-size:24px;
+      color:var(--text);
+      opacity:.5;
+    }
+
+    .modal-title{
+      font-family:"Rubik Scribble", cursive;
+      font-size:32px;
+      color:var(--blue);
+      margin:0 0 24px 0;
+      text-align:center;
+    }
+
+    .form-group{
+      margin-bottom:20px;
+    }
+
+    .form-label{
+      display:block;
+      margin-bottom:8px;
+      font-weight:600;
+      font-size:14px;
+      color:var(--text);
+      text-align:left;
+    }
+
+    .form-input{
+      width:100%;
+      padding:12px 16px;
+      border:2px solid var(--lilac);
+      border-radius:12px;
+      font-size:16px;
+      font-family:inherit;
+      background:#fff;
+    }
+
+    .form-input:focus{
+      outline:none;
+      border-color:var(--blue);
+    }
+
+    .form-submit{
+      width:100%;
+      padding:14px;
+      background:var(--red);
+      color:#fff;
+      border:none;
+      border-radius:999px;
+      font-size:16px;
+      font-weight:800;
+      cursor:pointer;
+      margin-top:8px;
+    }
+
+    .form-success{
+      display:none;
+      text-align:center;
+      padding:20px;
+    }
+
+    .form-success.active{
+      display:block;
+    }
+
+    .success-icon{
+      font-size:64px;
+      margin-bottom:16px;
+    }
+
+    .success-text{
+      font-size:18px;
+      color:var(--green);
+      font-weight:600;
+    }
+
+    .music-control{
+      position:fixed;
+      bottom:20px;
+      right:20px;
+      width:50px;
+      height:50px;
+      border-radius:50%;
+      background:var(--pink);
+      border:none;
+      cursor:pointer;
+      font-size:24px;
+      z-index:100;
+      box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .music-control.muted{
+      background:#ccc;
+    }
+
+    @keyframes fireworkPulse{
+      0%, 100%{
+        transform:scale(.92);
+        opacity:.78;
+      }
+      50%{
+        transform:scale(1.08);
+        opacity:1;
+      }
+    }
+
+    @keyframes spin{
+      from{ transform:rotate(0deg); }
+      to{ transform:rotate(360deg); }
+    }
+
+    @keyframes floatBall{
+      0%,100%{ transform:translateX(-50%) translateY(0); }
+      50%{ transform:translateX(-50%) translateY(6px); }
+    }
+
+    @keyframes sunburstPulse{
+      0%, 100%{
+        transform:scale(1);
+      }
+      50%{
+        transform:scale(1.05);
+      }
+    }
+
+    @keyframes sunburstRotate{
+      from{ transform:translate(-50%, -50%) rotate(0deg); }
+      to{ transform:translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @keyframes sunburstGlow{
+      0%, 100%{
+        opacity:.4;
+        transform:translate(-50%, -50%) scale(1);
+      }
+      50%{
+        opacity:.8;
+        transform:translate(-50%, -50%) scale(1.2);
+      }
+    }
+
+    @keyframes modalAppear{
+      from{
+        opacity:0;
+        transform:scale(0.9);
+      }
+      to{
+        opacity:1;
+        transform:scale(1);
+      }
+    }
+
+    @media (max-width: 640px){
+      .page{
+        padding:18px 14px 42px;
+      }
+
+      .title{
+        margin-top:130px;
+        margin-bottom:22px;
+      }
+
+      .hero{
+        min-height:320px;
+      }
+
+      .fw-left{
+        left:6px;
+        top:160px;
+        width:72px;
+        height:72px;
+      }
+
+      .fw-right{
+        right:8px;
+        top:122px;
+        width:78px;
+        height:78px;
+      }
+
+      .fw-bottom{
+        right:24px;
+        top:280px;
+        width:62px;
+        height:62px;
+      }
+
+      .intro,
+      .wishlist,
+      .footer,
+      .dress-text{
+        font-size:16px;
+      }
+
+      .place{
+        font-size:19px;
+      }
+
+      .discoball{
+        width:120px;
+        height:120px;
+      }
+
+      .star-left{
+        left:18px;
+      }
+
+      .star-right{
+        right:16px;
+      }
+
+      .modal{
+        padding:24px;
+      }
+
+      .modal-title{
+        font-size:28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="hanger"></div>
+
+    <div class="decor discoball">
+      <img src="diskoball.PNG" alt="Диско-шар" />
+    </div>
+
+    <div class="decor starburst star-left"></div>
+    <div class="decor starburst star-right"></div>
+    <div class="decor squiggle">~</div>
+    <div class="decor note">♪</div>
+
+    <h1 class="title">Варе годик!</h1>
+
+    <section class="hero">
+      <div class="blob"></div>
+
+      <div class="firework fw-left"></div>
+      <div class="firework fw-right"></div>
+      <div class="firework fw-bottom"></div>
+
+      <div class="photo-wrap">
+        <img src="varya-hat.PNG" alt="Варя в праздничном колпаке" />
+      </div>
+    </section>
+
+    <div class="intro">
+      Варвара решила устроить <span class="accent-word">сабантуйчик</span> по поводу своего первого дня рождения
+      и приглашает вас разделить с нами этот прекрасный день!
+    </div>
+
+    <div class="date">04.04 | 15:30</div>
+    <div class="subdate">сбор гостей — с 14:00</div>
+
+    <div class="place">📍 <strong>Адмирала Фадеева, 18</strong></div>
+
+    <section class="dress">
+      <div class="dress-title">дресс-код — «хулиганский шик»:</div>
+      <p class="dress-text">
+        смелые цвета, полоска, банты, яркие акценты,
+        забавные аксессуары и праздничное настроение!
+      </p>
+    </section>
+
+    <div class="color-dots">
+      <span class="dot" style="background:#C92B3F"></span>
+      <span class="dot" style="background:#F28C7B"></span>
+      <span class="dot" style="background:#2F67C8"></span>
+      <span class="dot" style="background:#A9DCED"></span>
+      <span class="dot" style="background:#1F8A63"></span>
+      <span class="dot" style="background:#D6B25F"></span>
+    </div>
+
+    <div class="wishlist">
+      Если хочется подарить что-нибудь полезное —<br>
+      мы собрали небольшой
+      <a href="https://followish.io/mywishlist/kai7eexxkcqdlp" target="_blank">вишлист ✨</a>
+    </div>
+
+    <div class="rsvp">
+      <button class="rsvp-btn" onclick="openModal()">Подтвердить присутствие <span class="sunburst-word">тык</span></button>
+    </div>
+
+    <div class="footer">
+      <strong>Ждём вас!</strong><br>
+      Варвара и её родители 💛
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+
+      <div id="formContent">
+        <h2 class="modal-title">Будете на празднике?</h2>
+
+        <form action="https://formspree.io/f/mreyqorz" method="POST" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label class="form-label" for="name">Ваше имя</label>
+            <input type="text" id="name" name="name" class="form-input" placeholder="Как вас зовут?" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="guests">Количество человек</label>
+            <input type="number" id="guests" name="guests" class="form-input" placeholder="Сколько будет человек?" min="1" max="10" required>
+          </div>
+
+          <input type="hidden" name="_subject" value="Новый ответ на приглашение - Варе годик!">
+
+          <button type="submit" class="form-submit">Подтвердить</button>
+        </form>
+      </div>
+
+      <div class="form-success" id="successMessage">
+        <div class="success-icon">🎉</div>
+        <div class="success-text">Спасибо! Мы вас ждём!</div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="baby-shark.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="music-control" id="musicBtn" onclick="toggleMusic()">🎵</button>
+
+  <script>
+    let musicPlaying = false;
+    const music = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+
+    window.addEventListener('load', function() {
+      const playPromise = music.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          musicPlaying = true;
+        }).catch(() => {
+          musicPlaying = false;
+          musicBtn.classList.add('muted');
+          musicBtn.textContent = '🔇';
+        });
+      }
+    });
+
+    document.addEventListener('click', function initAudio() {
+      if (!musicPlaying) {
+        music.play().then(() => {
+          musicPlaying = true;
+          musicBtn.classList.remove('muted');
+          musicBtn.textContent = '🎵';
+        }).catch(() => {});
+      }
+      document.removeEventListener('click', initAudio);
+    }, { once: true });
+
+    function toggleMusic() {
+      if (musicPlaying) {
+        music.pause();
+        musicBtn.classList.add('muted');
+        musicBtn.textContent = '🔇';
+        musicPlaying = false;
+      } else {
+        music.play().then(() => {
+          musicBtn.classList.remove('muted');
+          musicBtn.textContent = '🎵';
+          musicPlaying = true;
+        }).catch(() => {});
+      }
+    }
+
+    function openModal() {
+      document.getElementById('modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        document.getElementById('formContent').style.display = 'block';
+        document.getElementById('successMessage').classList.remove('active');
+      }, 300);
+    }
+
+    function closeModalOutside(event) {
+      if (event.target === document.getElementById('modal')) {
+        closeModal();
+      }
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      const form = event.target;
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          document.getElementById('formContent').style.display = 'none';
+          document.getElementById('successMessage').classList.add('active');
+        } else {
+          alert('Что-то пошло не так. Попробуйте ещё раз!');
+        }
+      }).catch(() => {
+        alert('Ошибка отправки. Проверьте подключение к интернету.');
+      });
+    }
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
